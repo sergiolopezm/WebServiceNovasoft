@@ -1,0 +1,126 @@
+﻿@page "/accounts-manager"
+@using WebServiceNovasoft.Shared.Models
+@using WebServiceNovasoft.Services.Interface
+@inject INovaSoftAccountService AccountService
+@inject INovaSoftAuthService AuthService
+
+<PageTitle>Gestión de Cuentas - NovaSoft</PageTitle>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="mb-4">Gestión de Cuentas NovaSoft</h2>
+
+            @if (!string.IsNullOrEmpty(message))
+            {
+                <div class="alert @(isError ? "alert-danger" : "alert-success") alert-dismissible fade show" role="alert">
+                    @message
+                    <button type="button" class="btn-close" @onclick="ClearMessage" aria-label="Close"></button>
+                </div>
+            }
+
+            <ul class="nav nav-tabs mb-3" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link @(activeTab == "list" ? "active" : "")"
+                            @onclick="@(() => SetActiveTab("list"))"
+                            type="button">
+                        Lista de Cuentas
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link @(activeTab == "create" ? "active" : "")"
+                            @onclick="@(() => SetActiveTab("create"))"
+                            type="button">
+                        Crear Cuenta
+                    </button>
+                </li>
+            </ul>
+
+            <div class="tab-content">
+                @if (activeTab == "list")
+                {
+                    <div class="tab-pane fade show active">
+                        <AccountsList @ref="accountsList" OnAccountCreated="HandleAccountCreated" />
+                    </div>
+                }
+                @if (activeTab == "create")
+                {
+                    <div class="tab-pane fade show active">
+                        <CreateAccount OnAccountCreated="HandleAccountCreated" OnShowMessage="ShowErrorMessage" />
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private string activeTab = "list";
+    private string message = string.Empty;
+    private bool isError = false;
+    private AccountsList? accountsList;
+
+    private void SetActiveTab(string tab)
+    {
+        activeTab = tab;
+        ClearMessage();
+        StateHasChanged();
+    }
+
+    private async Task HandleAccountCreated()
+    {
+        try
+        {
+            await Task.Delay(100);
+            if (accountsList != null)
+            {
+                await accountsList.RefreshAccounts();
+            }
+            activeTab = "list";
+            ShowMessage("Cuenta creada exitosamente", false);
+        }
+        catch (Exception ex)
+        {
+            ShowMessage($"Error al actualizar lista: {ex.Message}", true);
+        }
+    }
+
+    private void ShowMessage(string msg, bool error = false)
+    {
+        message = msg;
+        isError = error;
+        StateHasChanged();
+    }
+
+    private void ShowErrorMessage(string msg)
+    {
+        ShowMessage(msg, true);
+    }
+
+    private void ClearMessage()
+    {
+        message = string.Empty;
+        isError = false;
+        StateHasChanged();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            ShowMessage("Iniciando conexión...", false);
+
+            // Test connection
+            var token = await AuthService.GetTokenAsync();
+            if (!string.IsNullOrEmpty(token))
+            {
+                ShowMessage("Conexión exitosa con NovaSoft API", false);
+            }
+        }
+        catch (Exception ex)
+        {
+            ShowMessage($"Error de conexión: {ex.Message}", true);
+            Console.WriteLine($"Connection error: {ex}");
+        }
+    }
+}

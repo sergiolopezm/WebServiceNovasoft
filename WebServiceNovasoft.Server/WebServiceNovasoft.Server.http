@@ -1,0 +1,6 @@
+@WebServiceNovasoft.Server_HostAddress = http://localhost:5056
+
+GET {{WebServiceNovasoft.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

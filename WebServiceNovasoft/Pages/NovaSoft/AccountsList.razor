@@ -1,0 +1,247 @@
+﻿@using WebServiceNovasoft.Shared.Models
+@using WebServiceNovasoft.Services.Interface
+@inject INovaSoftAccountService AccountService
+
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h4 class="mb-0">Lista de Cuentas</h4>
+        <button class="btn btn-outline-primary" @onclick="RefreshAccounts" disabled="@isLoading">
+            @if (isLoading)
+            {
+                <span class="spinner-border spinner-border-sm me-2"></span>
+            }
+            Actualizar
+        </button>
+    </div>
+    <div class="card-body">
+        @if (isLoading)
+        {
+            <div class="text-center py-4">
+                <div class="spinner-border" role="status">
+                    <span class="visually-hidden">Cargando...</span>
+                </div>
+                <p class="mt-2">Cargando cuentas...</p>
+            </div>
+        }
+        else if (filteredAccounts != null && filteredAccounts.Any())
+        {
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-search"></i></span>
+                        <input type="text" class="form-control" placeholder="Buscar por código, nombre o NIT..." 
+                               @bind="searchTerm" @bind:event="oninput" @onkeyup="OnSearchInput" />
+                    </div>
+                </div>
+                <div class="col-md-6 text-end">
+                    <span class="badge bg-secondary">Total: @filteredAccounts.Count cuentas</span>
+                </div>
+            </div>
+
+            <div class="table-responsive small-table">
+                <table class="table table-striped table-hover table-sm">
+                    <thead class="table-dark sticky-top">
+                        <tr>
+                            <th>Código</th>
+                            <th>Nombre</th>
+                            <th>NIT</th>
+                            <th>Ciudad</th>
+                            <th>Teléfono</th>
+                            <th>Email</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var account in filteredAccounts)
+                        {
+                            <tr>
+                                <td class="text-nowrap">@(account.codCli ?? "")</td>
+                                <td>@(account.nomCli ?? "")</td>
+                                <td class="text-nowrap">@(account.nitCli ?? "")</td>
+                                <td class="text-nowrap">@(account.codCiu ?? "")</td>
+                                <td class="text-nowrap">@(account.te1Cli ?? "")</td>
+                                <td>@(account.eMail ?? "")</td>
+                                <td class="text-center">
+                                    <span class="badge @(account.estCli == "1" ? "bg-success" : "bg-danger")">
+                                        @(account.estCli == "1" ? "Activo" : "Inactivo")
+                                    </span>
+                                </td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-info" @onclick="@(() => ShowAccountDetails(account))">
+                                        <i class="bi bi-eye"></i> Ver
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="text-center py-4">
+                <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+                <p class="text-muted">No se encontraron cuentas.</p>
+                <button class="btn btn-primary" @onclick="RefreshAccounts">
+                    Cargar Cuentas
+                </button>
+            </div>
+        }
+    </div>
+</div>
+
+@if (selectedAccount != null)
+{
+    <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Detalles de la Cuenta</h5>
+                    <button type="button" class="btn-close" @onclick="CloseModal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <strong>Código Cliente:</strong> @(selectedAccount.codCli ?? "")
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <strong>Nombre:</strong> @(selectedAccount.nomCli ?? "")
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <strong>NIT:</strong> @(selectedAccount.nitCli ?? "")
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <strong>Ciudad:</strong> @(selectedAccount.codCiu ?? "")
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <strong>Departamento:</strong> @(selectedAccount.codDep ?? "")
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <strong>País:</strong> @(selectedAccount.codPai ?? "")
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <strong>Dirección:</strong> @(selectedAccount.di2Cli ?? "")
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <strong>Teléfono:</strong> @(selectedAccount.te1Cli ?? "")
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <strong>Email:</strong> @(selectedAccount.eMail ?? "")
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <strong>Tipo Cliente:</strong> @selectedAccount.tipCli
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <strong>Fecha Ingreso:</strong> @(selectedAccount.fecIng ?? "")
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <strong>Tipo Identificación:</strong> @(selectedAccount.tipIde ?? "")
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <strong>Apellido:</strong> @(selectedAccount.ap1Cli ?? "")
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <strong>Primer Nombre:</strong> @(selectedAccount.nom1Cli ?? "")
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <strong>Tipo Persona:</strong> @selectedAccount.tipPer
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <strong>Estado:</strong> 
+                            <span class="badge @(selectedAccount.estCli == "1" ? "bg-success" : "bg-danger")">
+                                @(selectedAccount.estCli == "1" ? "Activo" : "Inactivo")
+                            </span>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <strong>Código Externo:</strong> @(selectedAccount.codCliExtr ?? "")
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <strong>Página Web:</strong> 
+                            @if (!string.IsNullOrEmpty(selectedAccount.pagWeb))
+                            {
+                                <a href="@selectedAccount.pagWeb" target="_blank">@selectedAccount.pagWeb</a>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" @onclick="CloseModal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter] public EventCallback OnAccountCreated { get; set; }
+
+    private List<AccountDto> accounts = new();
+    private List<AccountDto> filteredAccounts = new();
+    private AccountDto? selectedAccount;
+    private bool isLoading = false;
+    private string searchTerm = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await RefreshAccounts();
+    }
+
+    public async Task RefreshAccounts()
+    {
+        isLoading = true;
+        StateHasChanged();
+        
+        try
+        {
+            accounts = await AccountService.GetAllAccountsAsync() ?? new List<AccountDto>();
+            filteredAccounts = new List<AccountDto>(accounts);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error refreshing accounts: {ex.Message}");
+            accounts = new List<AccountDto>();
+            filteredAccounts = new List<AccountDto>();
+        }
+        finally
+        {
+            isLoading = false;
+            StateHasChanged();
+        }
+    }
+
+    private void OnSearchInput()
+    {
+        FilterAccounts();
+    }
+
+    private void FilterAccounts()
+    {
+        if (string.IsNullOrWhiteSpace(searchTerm))
+        {
+            filteredAccounts = new List<AccountDto>(accounts);
+        }
+        else
+        {
+            var term = searchTerm.ToLower();
+            filteredAccounts = accounts.Where(a => 
+                (a.codCli?.ToLower().Contains(term) ?? false) ||
+                (a.nomCli?.ToLower().Contains(term) ?? false) ||
+                (a.nitCli?.ToLower().Contains(term) ?? false)
+            ).ToList();
+        }
+        StateHasChanged();
+    }
+
+    private void ShowAccountDetails(AccountDto account)
+    {
+        selectedAccount = account;
+        StateHasChanged();
+    }
+
+    private void CloseModal()
+    {
+        selectedAccount = null;
+        StateHasChanged();
+    }
+}

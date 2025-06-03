@@ -1,0 +1,11 @@
+C:\Fuentes\CONSUMO WEB SERVICE REST NOVASOFT\WebServiceNovasoft.Shared\bin\Debug\net8.0\WebServiceNovasoft.Shared.deps.json
+C:\Fuentes\CONSUMO WEB SERVICE REST NOVASOFT\WebServiceNovasoft.Shared\bin\Debug\net8.0\WebServiceNovasoft.Shared.dll
+C:\Fuentes\CONSUMO WEB SERVICE REST NOVASOFT\WebServiceNovasoft.Shared\bin\Debug\net8.0\WebServiceNovasoft.Shared.pdb
+C:\Fuentes\CONSUMO WEB SERVICE REST NOVASOFT\WebServiceNovasoft.Shared\obj\Debug\net8.0\WebServiceNovasoft.Shared.GeneratedMSBuildEditorConfig.editorconfig
+C:\Fuentes\CONSUMO WEB SERVICE REST NOVASOFT\WebServiceNovasoft.Shared\obj\Debug\net8.0\WebServiceNovasoft.Shared.AssemblyInfoInputs.cache
+C:\Fuentes\CONSUMO WEB SERVICE REST NOVASOFT\WebServiceNovasoft.Shared\obj\Debug\net8.0\WebServiceNovasoft.Shared.AssemblyInfo.cs
+C:\Fuentes\CONSUMO WEB SERVICE REST NOVASOFT\WebServiceNovasoft.Shared\obj\Debug\net8.0\WebServiceNovasoft.Shared.csproj.CoreCompileInputs.cache
+C:\Fuentes\CONSUMO WEB SERVICE REST NOVASOFT\WebServiceNovasoft.Shared\obj\Debug\net8.0\WebServiceNovasoft.Shared.dll
+C:\Fuentes\CONSUMO WEB SERVICE REST NOVASOFT\WebServiceNovasoft.Shared\obj\Debug\net8.0\refint\WebServiceNovasoft.Shared.dll
+C:\Fuentes\CONSUMO WEB SERVICE REST NOVASOFT\WebServiceNovasoft.Shared\obj\Debug\net8.0\WebServiceNovasoft.Shared.pdb
+C:\Fuentes\CONSUMO WEB SERVICE REST NOVASOFT\WebServiceNovasoft.Shared\obj\Debug\net8.0\ref\WebServiceNovasoft.Shared.dll

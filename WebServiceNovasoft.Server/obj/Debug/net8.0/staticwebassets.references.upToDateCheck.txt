@@ -1,0 +1,5 @@
+C:\Fuentes\CONSUMO WEB SERVICE REST NOVASOFT\WebServiceNovasoft\obj\Debug\net8.0\staticwebassets.build.json
+C:\Fuentes\CONSUMO WEB SERVICE REST NOVASOFT\WebServiceNovasoft\obj\Debug\net8.0\staticwebassets.build.json
+C:\Fuentes\CONSUMO WEB SERVICE REST NOVASOFT\WebServiceNovasoft\obj\Debug\net8.0\staticwebassets.build.json
+C:\Fuentes\CONSUMO WEB SERVICE REST NOVASOFT\WebServiceNovasoft\obj\Debug\net8.0\staticwebassets.build.json
+C:\Fuentes\CONSUMO WEB SERVICE REST NOVASOFT\WebServiceNovasoft\obj\Debug\net8.0\staticwebassets.build.json

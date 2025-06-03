@@ -1,0 +1,188 @@
+﻿@using WebServiceNovasoft.Shared.Models
+@using WebServiceNovasoft.Services.Interface
+@inject INovaSoftAccountService AccountService
+
+<div class="card">
+    <div class="card-header">
+        <h4 class="mb-0">Crear Nueva Cuenta</h4>
+    </div>
+    <div class="card-body">
+        <EditForm Model="@createAccountRequest" OnValidSubmit="@HandleSubmit">
+            <DataAnnotationsValidator />
+            <ValidationSummary class="alert alert-danger" />
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="codCli" class="form-label">Código Cliente *</label>
+                    <InputText id="codCli" class="form-control" @bind-Value="createAccountRequest.codCli" />
+                    <ValidationMessage For="@(() => createAccountRequest.codCli)" />
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="nomCli" class="form-label">Nombre Cliente *</label>
+                    <InputText id="nomCli" class="form-control" @bind-Value="createAccountRequest.nomCli" />
+                    <ValidationMessage For="@(() => createAccountRequest.nomCli)" />
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="nitCli" class="form-label">NIT Cliente *</label>
+                    <InputText id="nitCli" class="form-control" @bind-Value="createAccountRequest.nitCli" />
+                    <ValidationMessage For="@(() => createAccountRequest.nitCli)" />
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="codCiu" class="form-label">Código Ciudad *</label>
+                    <InputText id="codCiu" class="form-control" @bind-Value="createAccountRequest.codCiu" />
+                    <ValidationMessage For="@(() => createAccountRequest.codCiu)" />
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="codDep" class="form-label">Código Departamento *</label>
+                    <InputText id="codDep" class="form-control" @bind-Value="createAccountRequest.codDep" />
+                    <ValidationMessage For="@(() => createAccountRequest.codDep)" />
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="codPai" class="form-label">Código País *</label>
+                    <InputText id="codPai" class="form-control" @bind-Value="createAccountRequest.codPai" />
+                    <ValidationMessage For="@(() => createAccountRequest.codPai)" />
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="di2Cli" class="form-label">Dirección</label>
+                    <InputText id="di2Cli" class="form-control" @bind-Value="createAccountRequest.di2Cli" />
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="te1Cli" class="form-label">Teléfono</label>
+                    <InputText id="te1Cli" class="form-control" @bind-Value="createAccountRequest.te1Cli" />
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="tipCli" class="form-label">Tipo Cliente *</label>
+                    <InputNumber id="tipCli" class="form-control" @bind-Value="createAccountRequest.tipCli" />
+                    <ValidationMessage For="@(() => createAccountRequest.tipCli)" />
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="fecIng" class="form-label">Fecha Ingreso *</label>
+                    <InputText id="fecIng" class="form-control" @bind-Value="createAccountRequest.fecIng" placeholder="YYYY-MM-DD" />
+                    <ValidationMessage For="@(() => createAccountRequest.fecIng)" />
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="eMail" class="form-label">Email</label>
+                    <InputText id="eMail" class="form-control" @bind-Value="createAccountRequest.eMail" type="email" />
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="tipIde" class="form-label">Tipo Identificación</label>
+                    <InputText id="tipIde" class="form-control" @bind-Value="createAccountRequest.tipIde" />
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="ap1Cli" class="form-label">Apellido</label>
+                    <InputText id="ap1Cli" class="form-control" @bind-Value="createAccountRequest.ap1Cli" />
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="nom1Cli" class="form-label">Primer Nombre</label>
+                    <InputText id="nom1Cli" class="form-control" @bind-Value="createAccountRequest.nom1Cli" />
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="tipPer" class="form-label">Tipo Persona *</label>
+                    <InputNumber id="tipPer" class="form-control" @bind-Value="createAccountRequest.tipPer" />
+                    <ValidationMessage For="@(() => createAccountRequest.tipPer)" />
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="estCli" class="form-label">Estado Cliente *</label>
+                    <InputText id="estCli" class="form-control" @bind-Value="createAccountRequest.estCli" />
+                    <ValidationMessage For="@(() => createAccountRequest.estCli)" />
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="codCliExtr" class="form-label">Código Cliente Externo</label>
+                    <InputText id="codCliExtr" class="form-control" @bind-Value="createAccountRequest.codCliExtr" />
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="pagWeb" class="form-label">Página Web</label>
+                    <InputText id="pagWeb" class="form-control" @bind-Value="createAccountRequest.pagWeb" type="url" />
+                </div>
+            </div>
+
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary" disabled="@isSubmitting">
+                    @if (isSubmitting)
+                    {
+                        <span class="spinner-border spinner-border-sm me-2"></span>
+                    }
+                    Crear Cuenta
+                </button>
+                <button type="button" class="btn btn-secondary" @onclick="ResetForm">
+                    Limpiar
+                </button>
+            </div>
+        </EditForm>
+    </div>
+</div>
+
+@code {
+    [Parameter] public EventCallback OnAccountCreated { get; set; }
+    [Parameter] public EventCallback<string> OnShowMessage { get; set; }
+
+    private CreateAccountRequestDto createAccountRequest = new();
+    private bool isSubmitting = false;
+
+    protected override void OnInitialized()
+    {
+        SetDefaultValues();
+    }
+
+    private void SetDefaultValues()
+    {
+        createAccountRequest.fecIng = DateTime.Now.ToString("yyyy-MM-dd");
+        createAccountRequest.tipCli = 2;
+        createAccountRequest.tipPer = 2;
+        createAccountRequest.estCli = "1";
+    }
+
+    private async Task HandleSubmit()
+    {
+        isSubmitting = true;
+        StateHasChanged();
+
+        try
+        {
+            var success = await AccountService.CreateAccountAsync(createAccountRequest);
+
+            if (success)
+            {
+                await OnAccountCreated.InvokeAsync();
+                ResetForm();
+            }
+            else
+            {
+                await OnShowMessage.InvokeAsync("Error al crear la cuenta. Verifique los datos e intente nuevamente.");
+            }
+        }
+        catch (Exception ex)
+        {
+            await OnShowMessage.InvokeAsync($"Error: {ex.Message}");
+        }
+        finally
+        {
+            isSubmitting = false;
+            StateHasChanged();
+        }
+    }
+
+    private void ResetForm()
+    {
+        createAccountRequest = new CreateAccountRequestDto();
+        SetDefaultValues();
+        StateHasChanged();
+    }
+}

@@ -1,0 +1,80 @@
+﻿@page "/test-connection"
+@using WebServiceNovasoft.Services.Interface
+@inject INovaSoftAuthService AuthService
+
+<PageTitle>Prueba de Conexión</PageTitle>
+
+<div class="container">
+    <h3>Prueba de Conexión API NovaSoft</h3>
+
+    @if (isLoading)
+    {
+        <div class="alert alert-info">
+            <span class="spinner-border spinner-border-sm me-2"></span>
+            Probando conexión...
+        </div>
+    }
+
+    @if (!string.IsNullOrEmpty(message))
+    {
+        <div class="alert @(isError ? "alert-danger" : "alert-success")">
+            @message
+        </div>
+    }
+
+    @if (!string.IsNullOrEmpty(token))
+    {
+        <div class="alert alert-success">
+            <strong>Token obtenido:</strong><br />
+            <code style="word-break: break-all;">@token</code>
+        </div>
+    }
+
+    <button class="btn btn-primary" @onclick="TestApiConnection" disabled="@isLoading">
+        Probar Conexión
+    </button>
+</div>
+
+@code {
+    private bool isLoading = false;
+    private string message = string.Empty;
+    private bool isError = false;
+    private string token = string.Empty;
+
+    private async Task TestApiConnection()
+    {
+        isLoading = true;
+        message = string.Empty;
+        token = string.Empty;
+        isError = false;
+        StateHasChanged();
+
+        try
+        {
+            var authToken = await AuthService.GetTokenAsync();
+
+            if (!string.IsNullOrEmpty(authToken))
+            {
+                token = authToken;
+                message = "✅ Conexión exitosa! Token obtenido correctamente.";
+                isError = false;
+            }
+            else
+            {
+                message = "❌ No se pudo obtener el token.";
+                isError = true;
+            }
+        }
+        catch (Exception ex)
+        {
+            message = $"❌ Error: {ex.Message}";
+            isError = true;
+            Console.WriteLine($"Error completo: {ex}");
+        }
+        finally
+        {
+            isLoading = false;
+            StateHasChanged();
+        }
+    }
+}

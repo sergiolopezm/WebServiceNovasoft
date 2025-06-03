@@ -1,0 +1,60 @@
+[
+  {
+    "ContainingType": "WebServiceNovasoft.Server.Controllers.NovaSoftProxyController",
+    "Method": "CreateAccount",
+    "RelativePath": "api/NovaSoftProxy/accounts",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "createAccountRequest",
+        "Type": "System.Object",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebServiceNovasoft.Server.Controllers.NovaSoftProxyController",
+    "Method": "GetAllAccounts",
+    "RelativePath": "api/NovaSoftProxy/accounts",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebServiceNovasoft.Server.Controllers.NovaSoftProxyController",
+    "Method": "GetAccountById",
+    "RelativePath": "api/NovaSoftProxy/accounts/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebServiceNovasoft.Server.Controllers.NovaSoftProxyController",
+    "Method": "Login",
+    "RelativePath": "api/NovaSoftProxy/login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "loginRequest",
+        "Type": "System.Object",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]
